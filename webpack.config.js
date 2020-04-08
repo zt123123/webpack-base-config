@@ -18,10 +18,16 @@ module.exports = {
         use: {
           loader: "babel-loader",
           options: {
-            presets: ["@babel/preset-env", "@babel/preset-react"],
+            presets: [[
+              "@babel/preset-env",
+              {
+                "targets": {
+                  "esmodules": true
+                }
+              }
+            ], "@babel/preset-react"],
             plugins: [
-              // "transform-es2015-modules-commonjs",
-              // "@babel/plugin-transform-runtime",
+              "@babel/plugin-transform-runtime",
             ]
           }
         }
@@ -43,6 +49,7 @@ module.exports = {
   },
   devtool: "source-map",
   optimization: {
+    runtimeChunk: true,
     splitChunks: {
       cacheGroups: {
         commons: {
