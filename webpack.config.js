@@ -4,25 +4,35 @@ const HTMLWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
+  resolve: {
+    extensions: ['.js', '.jsx'] //解析文件类型
+  },
   entry: {
-    vendor: "./src/index.js"
+    index: "./src/index.jsx"
   },
   mode: "development",
   module: {
     rules: [
       {
-        test: /.js$/,
+        test: /.(js|jsx)$/,
         use: {
           loader: "babel-loader",
           options: {
             presets: ["@babel/preset-env", "@babel/preset-react"],
-            plugins: []
+            plugins: [
+              // "transform-es2015-modules-commonjs",
+              // "@babel/plugin-transform-runtime",
+            ]
           }
         }
       },
       {
         test: /.css$/,
         use: ["style-loader", "css-loader"]
+      },
+      {
+        test: /.less$/,
+        use: ["style-loader", "css-loader", "less-loader"]
       },
     ]
   },
@@ -44,6 +54,7 @@ module.exports = {
   },
   plugins: [
     new webpack.ProgressPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
     new HTMLWebpackPlugin({
       title: "Title",
       template: "index.html",
